@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getMovies } from '../../store/movie';
+import { getMovies, getLoading } from '../../store/movie';
 import TableList from '../TableList';
 import MovieDetail from './MovieDetail';
+import Loading from '../../components/Loading';
 
 function MovieList() {
   const [openModal, setOpenModal] = useState(false)
   const movies = useSelector(getMovies);
+  const loading = useSelector(getLoading);
   const tableHeader = ['Title', 'Year', 'imDB ID', 'Star'];
 
   return (
@@ -17,7 +19,20 @@ function MovieList() {
           <TableList movies={movies} header={tableHeader} setOpen={setOpenModal} />
         }
       </div>
-      <MovieDetail open={openModal} setOpen={setOpenModal} />
+      {
+        loading && 
+        <Loading />
+      }
+      {
+        !loading && 
+        <>
+          <MovieDetail open={openModal} setOpen={setOpenModal} />
+          <div 
+            className={`modal-movie-overlay ${openModal ? '' : 'closed'}`}
+            onClick={() => setOpenModal(false)}
+          ></div>
+        </>
+      }
     </>
   );
 }

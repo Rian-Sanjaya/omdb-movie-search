@@ -6,8 +6,10 @@ function TableList({ movies, header, setOpen }) {
   const dispatch = useDispatch();
 
   function handleTitleClick(id) {
-    dispatch(fetchMovie(id));
-    setOpen(true);
+    dispatch(fetchMovie(id))
+    .then(() => {
+      setOpen(true);
+    });
   }
 
   return (
@@ -39,6 +41,7 @@ function TableList({ movies, header, setOpen }) {
                 </td>
                 <td>{ movie.Year }</td>
                 <td>{ movie.imdbID }</td>
+                <td>fav</td>
               </tr>
             ))
           }
