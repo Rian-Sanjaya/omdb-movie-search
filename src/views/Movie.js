@@ -24,10 +24,6 @@ function Movie() {
                 loading && 
                 <Loading />
               }
-              {/* {
-                !loading && 
-                <MovieList />
-              } */}
               <MovieList />
             </section>
           </Tab>
