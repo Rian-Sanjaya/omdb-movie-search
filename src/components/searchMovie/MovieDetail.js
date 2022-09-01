@@ -5,7 +5,7 @@ function MovieDetail({ open, setOpen }) {
   const movie = useSelector(getMovie);
 
   return (
-    <div className={`modal-movie-detail ${open ? '' : 'closed'}`} id="modal-movie-detail">
+    <div className={`modal-movie-detail ${open ? '' : 'closed'}`}>
       <div className="button-container"><button onClick={() => setOpen(false)}>x</button></div>
       <div className="modal-movie-detail-content">
         {

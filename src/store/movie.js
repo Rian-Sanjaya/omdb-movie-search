@@ -27,6 +27,14 @@ export function movieReducer(state = initialState, action) {
         error: '',
         movie: null,
       };
+    case MOVIES_FETCH_MORE:
+      return {
+        ...state, 
+        movies: action.payload.movies, 
+        total: action.payload.total, 
+        page: action.payload.page, 
+        error: '',
+      }
     case MOVIE_FETCH:
       return {
         ...state,
@@ -81,6 +89,11 @@ export const titleChanged = (title) => ({
 export const moviesFetch = (movies, total) => ({
   type: MOVIES_FETCH,
   payload: { movies, total },
+})
+
+export const moviesFetchMore = (movies, total, page) => ({
+  type: MOVIES_FETCH_MORE,
+  payload: { movies, total, page },
 })
 
 export const movieFetch = (movie) => ({
@@ -145,6 +158,45 @@ export function fetchMovies(title) {
   };
 }
 
+export function fetchMoreMovies() {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      const state = getState();
+      const title = state.movies.title;
+      const page = state.movies.page + 1;
+      const movies = state.movies.movies;
+      dispatch(setLoading(true));
+      getAPI(MOVIE_API.SEARCH_MORE_BY_TITLE(title, page))
+        .then((res) => {
+          if (res.Response === "True") {
+            const myFavourite = JSON.parse(localStorage.getItem('myFavourite'));
+            let moviesWithFavourite;
+            if (myFavourite) {
+              moviesWithFavourite = res.Search.map(movie => {
+                const found = myFavourite.find(fav => fav.imdbID === movie.imdbID);
+                if (found) return { ...movie, favourite: true };
+                else return { ...movie, favourite: false };
+              });
+            } else {
+              moviesWithFavourite = res.Search.map(movie => (
+                { ...movie, favourite: false }
+              ));
+            }
+            const moreMovies = [ ...movies, ...moviesWithFavourite ];
+            dispatch(moviesFetchMore(moreMovies, res.totalResults, page))
+          }
+          dispatch(setLoading(false));
+          resolve();
+        })
+        .catch(err => {
+          dispatch(setLoading(false));
+          console.error('error: ', err);
+          reject(err);
+        })
+    });
+  };
+}
+
 export function fetchMovie(id) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -190,6 +242,7 @@ export function onUpdateFavourite(curMovie) {
 // action types
 export const TITLE_CHANGED = 'movie/titleChanged';
 export const MOVIES_FETCH = 'movie/moviesFetch';
+export const MOVIES_FETCH_MORE = 'movie/moviesFetchMore';
 export const MOVIE_FETCH = 'movie/movieFetch';
 export const EMPTY_MOVIES = 'movie/emptyMovies';
 export const EMPTY_MOVIE = 'movie/emptyMovie';

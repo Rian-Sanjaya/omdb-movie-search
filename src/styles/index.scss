@@ -96,6 +96,7 @@ html, body, #root {
   
       h5 {
         font-weight: 700;
+        margin-top: 1rem;
       }
 
       .text-container {
@@ -113,7 +114,108 @@ html, body, #root {
   }
   
   .modal-movie-detail.closed {
-    // display: none;
+    left: 100%;
+  }
+
+  .modal-movie-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 8;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+  }
+
+  .modal-movie-overlay.closed {
+    display: none;
+  }
+}
+
+.favourite-list-section {
+  position: relative; 
+  height: 100%; 
+  overflow: hidden;
+
+  .loading-container {
+    height: calc(100% - 68px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+
+  .favourite-list-container {
+    margin-top: 50px;
+    height: calc(100% - 68px);
+    overflow: scroll;
+  
+    .title-button {
+      border: none;
+      background: none;
+      outline: none;
+      color: #0d6efd;
+      text-align: left;
+    }
+  
+    .title-button:hover {
+      color: #6610f2;
+    }
+  }
+
+  .modal-movie-detail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: left 1s linear;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    z-index: 9;
+    padding: 20px 80px;
+  
+    .button-container {
+      text-align: right;
+
+      button {
+        border: none;
+        background: none;
+        outline: none;
+        font-size: 26px;
+        font-weight: 700;
+      }
+    }
+
+    .modal-movie-detail-content {
+      height: 100%;
+      overflow: scroll;
+  
+      h5 {
+        font-weight: 700;
+      }
+
+      .text-container {
+        display: flex;
+
+        .text-label {
+          font-weight: 700;
+        }
+  
+        .text-content {
+          margin-left: 4px;
+        }
+      }
+    }
+  }
+  
+  .modal-movie-detail.closed {
     left: 100%;
   }
 
@@ -151,6 +253,7 @@ $starColorInactive: #DEE0E0;
 .fav {
 	@extend %FlexCenter;
   margin-top: 4px;
+  cursor: pointer;
 	
 	&-star {
     width: 1rem;

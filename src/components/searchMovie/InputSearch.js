@@ -1,19 +1,29 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { getTitle, titleChanged, fetchMovies } from '../../store/movie';
+import { useState, useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import debounce from 'lodash.debounce';
+import { titleChanged, fetchMovies } from '../../store/movie';
 import { Form } from 'react-bootstrap';
 
 function InputSearch() {
+  const [searchInput, setSearchInput] = useState('');
   const dispatch = useDispatch();
-  const title = useSelector(getTitle);
+
+  const debounceFetchData = useMemo(() => {
+    return debounce(handleInputChange, 1000)
+  }, []);
+
+
+  useEffect(() => {
+    dispatch(titleChanged(searchInput));
+    dispatch(fetchMovies(searchInput));
+
+    return () => {
+      debounceFetchData.cancel();
+    }
+  }, [searchInput, dispatch, debounceFetchData])
 
   function handleInputChange(e) {
-    dispatch(titleChanged(e.target.value));
-  }
-
-  function handleKeyDown(e) {
-    if (e.key === 'Enter') {
-      dispatch(fetchMovies(title));
-    }
+    setSearchInput(e.target.value);
   }
 
   return (
@@ -21,9 +31,7 @@ function InputSearch() {
       <Form.Control 
         type="text" 
         placeholder="Enter movie title here..." 
-        value={title} 
-        onChange={handleInputChange} 
-        onKeyDown={handleKeyDown}
+        onChange={debounceFetchData}
       />
     </div>
   );
