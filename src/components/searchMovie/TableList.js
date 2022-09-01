@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { Table } from 'react-bootstrap';
-import { fetchMovie, onUpdateFavourite } from '../store/movie';
+import { fetchMovie, onUpdateFavourite } from '../../store/movie';
 
-function TableList({ movies, header, setOpen }) {
+function TableList({ movies, header, setOpen, tabKey }) {
   const dispatch = useDispatch();
 
   function handleTitleClick(id) {
@@ -24,6 +24,7 @@ function TableList({ movies, header, setOpen }) {
               Title: mov.Title,
               Year: mov.Year,
               Language: res.Language,
+              favourite: !mov.favourite,
             }
 
             if (mov.favourite) {
@@ -71,7 +72,7 @@ function TableList({ movies, header, setOpen }) {
                   </button>
                 </td>
                 <td>{ movie.Year }</td>
-                <td>{ movie.imdbID }</td>
+                <td>{ tabKey === 'my favourite' ? movie.Language : movie.imdbID }</td>
                 <td>
                   <div className="fav" onClick={() => handleFavClick(movie)}>
                     <svg className={`fav-star ${movie.favourite ? 'favourite' : ''}`} viewBox="0 0 114 110">

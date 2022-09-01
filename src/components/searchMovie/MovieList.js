@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getMovies, getLoading } from '../../store/movie';
-import TableList from '../TableList';
+import TableList from './TableList';
 import MovieDetail from './MovieDetail';
 import Loading from '../../components/Loading';
 
-function MovieList() {
+function MovieList({ tabKey }) {
   const [openModal, setOpenModal] = useState(false)
   const movies = useSelector(getMovies);
   const loading = useSelector(getLoading);
@@ -16,7 +16,7 @@ function MovieList() {
       <div className="movie-list-container">
         {
           movies.length > 0 && 
-          <TableList movies={movies} header={tableHeader} setOpen={setOpenModal} />
+          <TableList movies={movies} header={tableHeader} setOpen={setOpenModal} tabKey={tabKey} />
         }
       </div>
       {
