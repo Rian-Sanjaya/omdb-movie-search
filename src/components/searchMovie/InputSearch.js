@@ -6,10 +6,11 @@ import { Form } from 'react-bootstrap';
 
 function InputSearch() {
   const [searchInput, setSearchInput] = useState('');
+  const [searchFocus, setSearchFocus] = useState(false);
   const dispatch = useDispatch();
 
   const debounceFetchData = useMemo(() => {
-    return debounce(handleInputChange, 1000)
+    return debounce(handleInputChange, 700)
   }, []);
 
 
@@ -27,11 +28,20 @@ function InputSearch() {
   }
 
   return (
-    <div className="search-input-container">
+    <div className="search-input-container" style={{ position: 'relative' }}>
+      <div class={`search-icon-container ${searchFocus ? 'focused' : ''}`} style={{ position: 'absolute', top: '14px', left: '27px' }}>
+        <div id="wrapper">
+          <div id="circle"></div>
+          <div id="bar"></div>
+        </div>
+      </div>
       <Form.Control 
         type="text" 
         placeholder="Enter movie title here..." 
         onChange={debounceFetchData}
+        onFocus={() => setSearchFocus(true)}
+        onBlur={() => setSearchFocus(false)}
+        style={{ paddingLeft: '35px' }}
       />
     </div>
   );
