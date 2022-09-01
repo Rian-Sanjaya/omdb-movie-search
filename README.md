@@ -1,6 +1,6 @@
 ### To see  the project live
 
-[OMDB Movie Search](https://fanciful-conkies-e27ee5.netlify.app/)
+[OMDB Movie Search](https://chic-gelato-a47be7.netlify.app/)
 
 **Using mock api for fetch data**
 
