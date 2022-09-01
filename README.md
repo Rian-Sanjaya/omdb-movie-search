@@ -1,6 +1,6 @@
 ### To see  the project live
 
-[OMDB Movie Search](https://product-catalogue-riansj.vercel.app/)
+[OMDB Movie Search](https://fanciful-conkies-e27ee5.netlify.app/)
 
 **Using mock api for fetch data**
 
@@ -27,6 +27,7 @@ Libraries and dependency packages:
 - lodash.debounce 
 - node-sass
 
+
 ### To run in local
 
 **Install package.**
@@ -39,3 +40,14 @@ $ npm install
 ```bash
 $ npm start
 ```
+
+## Deploy
+
+```bash
+$ npm run build
+```
+
+using netlify:
+- add new site 
+- choose Deploy manually 
+- Drag and drop folder build 
