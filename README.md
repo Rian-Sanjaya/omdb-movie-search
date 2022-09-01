@@ -13,6 +13,7 @@ A web application to allow user to search movies.
 Features:
 
 - input search using debounce to fetch the api
+- button more to fetch more movies
 - a slide modal to see movie detail
 - allowed user to check their favourite movies and remove their favourite
 - micro interaction on search input icon, star favourite when checked and unchecked
